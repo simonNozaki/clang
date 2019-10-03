@@ -28,10 +28,10 @@ int main(int argc, char *argv[])
     }
     
     // (3) 1ビット左にシフトする
-    int m = n << 1;
-    printf("shifted: %d\n", m);
+    n = n << 1;
+    printf("shifted: %d\n", n);
     
-    if(m == 0){
+    if(n == 0){
         printf("\n");
         exit(0);
     }
