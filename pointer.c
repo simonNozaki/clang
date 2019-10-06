@@ -6,6 +6,7 @@
  */
 void print();
 void printAddressAndValue();
+void constPointer();
 
 
 int main(void)
@@ -59,3 +60,16 @@ void printAddressAndValue()
 }
 
 
+void constPointer()
+{
+    int num = 5;
+    const int limit = 500;
+    
+    int *pi;
+    const int *pci;
+    
+    pi = &num;
+    pci = &limit;
+    
+    *pci = 200;
+}
