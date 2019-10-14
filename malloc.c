@@ -7,6 +7,7 @@
 // -----------------------------
 void realloction();
 float average(int *arr, int size);
+int square(int num);
 
 
 int main()
@@ -46,7 +47,14 @@ int main()
     int array[] = {28, 4, 17, 5};
     int *pa;
     pa = array;
-    printf("average: %f", average(pa, 4));
+    printf("average: %f\n", average(pa, 4));
+    
+    // ----------------------------- //
+    // 関数ポインタ宣言
+    int (*fptr)(int);
+    int n = 5;
+    fptr = square;
+    printf("Squared: %d\n", fptr(n));
     
     return 0;
 }
@@ -79,4 +87,10 @@ float average(int *arr, int size)
     }
     
     return (sum * 1.0f) / size;
+}
+
+
+int square(int num)
+{
+    return num*num;
 }

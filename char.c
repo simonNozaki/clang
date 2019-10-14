@@ -6,11 +6,11 @@
  * プロトタイプ宣言
  */
 void setCase(char *subject);
+void operate();
+void scan();
+void copy();
 
-/*
- 
- 入力された文字列をを16進数表記で出力する
- */
+
 int main(int argc, char *argv[])
 {
     if(argc == 1) {
@@ -24,6 +24,10 @@ int main(int argc, char *argv[])
         char *in = argv[i];
         setCase(in);
     }
+    
+    scan();
+    
+    copy();
     
     return 0;
 }
@@ -53,4 +57,56 @@ void setCase(char *subject)
     
     printf("UPPER to lower: %s\n", lower);
     printf("lower to UPPER: %s\n", upper);
+}
+
+
+void operate()
+{
+    // 文字列リテラルの初期化
+    char header[] = "Media Player";
+    
+    // 文字列ポインタの初期化(ヒープにコピーが作られない)
+    char *character = "Media Player";
+    
+    // 文字列ポインタに、文字定数を代入して初期化する
+    // 動的にメモリをヒープで確保し、値を格納する
+    char *prefix;
+    prefix = (char *)malloc(2);
+    *prefix = '+';
+    *(prefix+1) = '\0';
+}
+
+
+void scan()
+{
+    char command[16];
+    printf("Enter a command: ");
+    scanf("%s", command);
+    
+    if (strcmp(command, "Quit") == 0) {
+        printf("Command is Quit.\n");
+    } else {
+        printf("Command is not Quit.\n");
+    }
+}
+
+
+void copy()
+{
+    char name[32];
+    char *names[30];
+    size_t count = 0;
+    char *cursor;
+    cursor = name;
+    
+    printf("Enter a name: ");
+    scanf("%s", name);
+    
+    while (*cursor != '\0') {
+        names[count] = (char *)malloc(sizeof(char));
+        strcpy(names[count], name);
+        count++;
+    }
+    
+    printf("names: %s\n", *names);
 }
