@@ -2,14 +2,16 @@
 #include <stdlib.h>
 #include <string.h>
 
-/**
- * プロトタイプ宣言
- */
+// -----------------------------
+// プロトタイプ宣言
+// -----------------------------
 void setCase(char *subject);
 void operate();
 void scan();
 void copy();
 char* returnALiteral(int code);
+size_t countLength(const char string[]);
+char* format(char *buffer, size_t size, const char *name, size_t quantity, size_t weight);
 
 
 int main(int argc, char *argv[])
@@ -26,12 +28,32 @@ int main(int argc, char *argv[])
         setCase(in);
     }
     
+
     // scan();
     // copy();
     
     char *pc;
     pc = returnALiteral(100);
     printf("Selected Center: %s\n", pc);
+
+    // ----------------------------- //
+    
+    // 文字列リテラル分メモリを確保して、ポインタにコピー
+    char simpleArray[] = "simple string";
+    char *simplePtr = (char *)malloc(strlen(simpleArray)+1);
+    strcpy(simplePtr, simpleArray);
+    
+    // 以下を採用すると、ヒープにメモリを確保した状態でポインタを操作する
+    // char *simplePtr = (char *)malloc(strlen(simpleArray)+1);
+    // 以下を採用すると、リテラルプールにあるメモリを参照して文字列をカウントする
+    // char *simplePtr = simpleArray;
+    
+    printf("length: %d\n", (int)countLength(simplePtr));
+    
+    // ----------------------------- //
+    
+    // 第一引数がNULLの場合動的にメモリを確保する
+    printf("%s\n", format(NULL, 0, "Axle", 25, 45));
     
     return 0;
 }
@@ -132,4 +154,42 @@ char* returnALiteral(int code)
             break;
     }
     return "";
+}
+
+/**
+ * 文字列リテラルの文字数をカウントします。
+ */
+size_t countLength(const char string[]) {
+    size_t length = 0;
+    
+    while (*(string++)) {
+        length++;
+    }
+    return length;
+}
+
+/**
+ * 文字列をフォーマットします。
+ * @param 書き込み用バッファ
+ * @param バッファのメモリサイズ
+ * @param 名前
+ * @param 数量
+ * @param 重さ
+ * @return フォーマットした文字列のポインタ
+ */
+char* format(char *buffer, size_t size, const char *name, size_t quantity, size_t weight)
+{
+    
+    char formatString[] = "Item: %s, Quantity: %zu, Weight: %zu";
+    size_t formatStringLength = strlen(formatString) - 6;
+    size_t nameLength = strlen(name);
+    size_t length = formatStringLength + nameLength + 10 + 10 + 1;
+    
+    if (buffer == NULL) {
+        buffer = (char *)malloc(length);
+        size = length;
+    }
+    
+    snprintf(buffer, size, formatString, name, quantity, weight);
+    return buffer;
 }
