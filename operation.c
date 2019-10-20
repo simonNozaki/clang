@@ -7,6 +7,7 @@
 // -----------------------------
 typedef int (*fptrOperation)(int, int);
 typedef int (*operation)(int, int);
+typedef int (*fptrChar)(const char*, const char*);
 
 // -----------------------------
 // プロトタイプ宣言
@@ -18,6 +19,10 @@ fptrOperation select(char opcode);
 int evaluate(char opcode, int num1, int num2);
 void initializeOperationArray();
 int evaluateArray(char opcode, int num1, int num2);
+
+void sort(char *array[], int size, fptrChar operation);
+int compare(const char *char1, const char *char2);
+void displayNames(char *names[], int size);
 
 // -----------------------------
 // グローバル変数宣言
@@ -40,6 +45,12 @@ int main(int argc, char *argv[])
     printf("SUB: %d\n", compute(sub, 5, 6));
     // printf("OPE: %d\n", evaluate('+', 4, 3));
     printf("OPE: %d\n", evaluateArray('+', 4, 3));
+    
+    // --------------------------- //
+    char *persons[] = { "Bob", "Alice", "Sam", "Mike", "Carol" };
+    displayNames(persons, 5);
+    sort(persons, 5, compare);
+    displayNames(persons, 5);
     
     return 0;
 }
@@ -115,4 +126,40 @@ int evaluateArray(char opcode, int num1, int num2)
         return operation(num1, num2);
     }
     return 0;
+}
+
+/**
+ * ２つの文字列を比較します。
+ */
+int compare(const char *char1, const char *char2)
+{
+    return strcmp(char1, char2);
+}
+
+/**
+ * バブルソート
+ */
+void sort(char *array[], int size, fptrChar operation)
+{
+    int swap = 1;
+    while (swap) {
+        swap = 0;
+        for (int i=0; i<size-1; i++) {
+            if (operation(array[i], array[i+1]) > 0) {
+                swap = 1;
+                char *tmp = array[i];
+                array[i] = array[i+1];
+                array[i+1] = tmp;
+            }
+        }
+    }
+}
+
+
+void displayNames(char *names[], int size)
+{
+    for (int i=0; i < size; i++) {
+        printf("%s ", names[i]);
+    }
+    printf("\n");
 }

@@ -9,6 +9,7 @@ void setCase(char *subject);
 void operate();
 void scan();
 void copy();
+char* returnALiteral(int code);
 
 
 int main(int argc, char *argv[])
@@ -25,9 +26,12 @@ int main(int argc, char *argv[])
         setCase(in);
     }
     
-    scan();
+    // scan();
+    // copy();
     
-    copy();
+    char *pc;
+    pc = returnALiteral(100);
+    printf("Selected Center: %s\n", pc);
     
     return 0;
 }
@@ -109,4 +113,23 @@ void copy()
     }
     
     printf("names: %s\n", *names);
+}
+
+char* returnALiteral(int code)
+{
+    switch (code) {
+        case 100:
+            return "Boston Processing Center";
+            break;
+        case 200:
+            return "Denver Processing Center";
+            break;
+        case 300:
+            return "Atlanta Processing Center";
+            break;
+        case 400:
+            return "San Jose Processing Center";
+            break;
+    }
+    return "";
 }
