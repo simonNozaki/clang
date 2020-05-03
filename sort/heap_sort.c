@@ -21,11 +21,13 @@ void heap_sort(int *array);
 int left(int *array, int index);
 int right(int *array, int index);
 
+void printArray(int *array);
+
 // -----------------------------
 // static変数宣言
 // -----------------------------
 // ヒープの大きさ
-int *heap_size;
+int size;
 // 配列ポインタ
 int *pa;
 
@@ -34,27 +36,38 @@ int main()
 {
     int array[] = { 23, 17, 14, 6, 13, 10, 1 };
     
+    printArray(array);
+    
     pa = array;
-    heap_size = (int *)sizeof(array);
+    size = sizeof(array) / sizeof(int);
     
     heap_sort(array);
     
+    printArray(array);
 }
 
+
+void printArray(int *array)
+{
+    for (int i=0; i < size; i++) {
+        printf("%d ", array[i]);
+    }
+    printf("\n");
+}
 
 void heap_sort(int *array)
 {
     build_max_heap(array);
     
-    for (int i=*heap_size; i > 1; i--) {
-        heap_size -= 1;
+    for (int i=size; i > 1; i--) {
+        size -= 1;
         max_heapify(array, 1);
     }
 }
 
 void build_max_heap(int *array)
 {
-    for (int i=*heap_size; i > 0; i--) {
+    for (int i=size; i > 0; i--) {
         max_heapify(array, i);
     }
 }
@@ -65,13 +78,13 @@ void max_heapify(int *array, int index)
     int r = right(array, index);
     int largest = 0;
     
-    if (l <= *heap_size && array[l] > array[index]) {
+    if (l <= size && array[l] > array[index]) {
         largest = l;
     } else {
         largest = index;
     }
     
-    if (r <= *heap_size && array[r] > array[largest]) {
+    if (r <= size && array[r] > array[largest]) {
         largest = r;
     }
     
